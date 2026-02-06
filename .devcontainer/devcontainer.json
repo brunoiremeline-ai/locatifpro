@@ -1,0 +1,7 @@
+{
+  "name": "LocatifPro Dev",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "directus",
+  "workspaceFolder": "/workspaces/locatifpro",
+  "forwardPorts": [8055, 5432]
+}

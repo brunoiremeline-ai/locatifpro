@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: locatifpro
+      POSTGRES_USER: locatifpro
+      POSTGRES_PASSWORD: locatifpro
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  directus:
+    image: directus/directus:latest
+    depends_on:
+      - db
+    environment:
+      KEY: "locatifpro-key"
+      SECRET: "locatifpro-secret"
+      DB_CLIENT: "pg"
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: locatifpro
+      DB_USER: locatifpro
+      DB_PASSWORD: locatifpro
+      ADMIN_EMAIL: "admin@locatifpro.local"
+      ADMIN_PASSWORD: "Admin123!"
+    ports:
+      - "8055:8055"
+    volumes:
+      - uploads:/directus/uploads
+
+volumes:
+  pgdata:
+  uploads:
