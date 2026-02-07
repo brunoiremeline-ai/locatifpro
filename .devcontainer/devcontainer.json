@@ -1,7 +1,17 @@
 {
-  "name": "LocatifPro Dev",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "directus",
+  "name": "LocatifPro (Workspace)",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "docker-compose.workspace.yml"
+  ],
+  "service": "workspace",
   "workspaceFolder": "/workspaces/locatifpro",
-  "forwardPorts": [8055, 5432]
+  "runServices": ["db", "directus"],
+  "forwardPorts": [8055, 5432],
+  "remoteUser": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  }
 }

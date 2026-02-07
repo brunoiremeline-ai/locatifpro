@@ -15,18 +15,28 @@ services:
     depends_on:
       - db
     environment:
+      # Sécurité
       KEY: "locatifpro-key"
-      SECRET: "locatifpro-secret"
+      SECRET: "locatifpro-secret-32-bytes-minimum----OK"
+
+      # Base de données
       DB_CLIENT: "pg"
       DB_HOST: db
       DB_PORT: 5432
       DB_DATABASE: locatifpro
       DB_USER: locatifpro
       DB_PASSWORD: locatifpro
-      ADMIN_EMAIL: "admin@locatifpro.local"
-      ADMIN_PASSWORD: "Admin123!"
+      ADMIN_EMAIL: "ebrunoir@groupecreo.com"
+      ADMIN_PASSWORD: "Mopimop972"
+
+      PUBLIC_URL: "https://${CODESPACE_NAME}-8055.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+
+      # Environnement
+      NODE_ENV: "development"
+
     ports:
       - "8055:8055"
+
     volumes:
       - uploads:/directus/uploads
 

@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  workspace:
+    image: mcr.microsoft.com/devcontainers/javascript-node:20
+    init: true
+    volumes:
+      - ..:/workspaces/locatifpro:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /workspaces/locatifpro
+    command: sleep infinity

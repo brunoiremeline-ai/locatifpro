@@ -1,0 +1,411 @@
+version: 1
+directus: 11.15.1
+vendor: postgres
+
+collections:
+  - collection: entites
+    meta:
+      icon: domain
+      note: Référentiel Entités (bailleurs/locataires)
+      sort: 10
+      archive_field: actif
+      archive_value: "false"
+      unarchive_value: "true"
+      display_template: "{{code}} — {{nom_affichage}}"
+
+  - collection: societes_internes
+    meta:
+      icon: business
+      note: Sociétés internes (séparation par société)
+      sort: 20
+      archive_field: actif
+      archive_value: "false"
+      unarchive_value: "true"
+      display_template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})"
+
+  - collection: proprietes
+    meta:
+      icon: location_city
+      sort: 30
+      archive_field: actif
+      archive_value: "false"
+      unarchive_value: "true"
+      display_template: "{{code}} — {{libelle}}"
+
+  - collection: biens
+    meta:
+      icon: home
+      sort: 40
+      archive_field: actif
+      archive_value: "false"
+      unarchive_value: "true"
+      display_template: "{{code_lot}}"
+
+  - collection: baux
+    meta:
+      icon: description
+      sort: 50
+      display_template: "{{code_bail}}"
+
+  - collection: echeances
+    meta:
+      icon: event_note
+      sort: 60
+      display_template: "{{periode}}"
+
+  - collection: paiements
+    meta:
+      icon: payments
+      sort: 70
+      display_template: "{{date_paiement}} — {{montant}}"
+
+  - collection: paiement_allocations
+    meta:
+      icon: link
+      sort: 80
+
+  - collection: indexations_soumises
+    meta:
+      icon: trending_up
+      sort: 90
+      display_template: "{{periode_effet}} — {{montant_demande}}"
+
+  - collection: indices
+    meta:
+      icon: query_stats
+      sort: 100
+      display_template: "{{code_index}} {{periode}}"
+
+  - collection: documents
+    meta:
+      icon: attach_file
+      sort: 110
+      display_template: "{{categorie}} — {{titre}}"
+
+  - collection: alertes_conformite
+    meta:
+      icon: warning
+      sort: 120
+      display_template: "{{niveau}} — {{code}}"
+
+  - collection: journal_actions
+    meta:
+      icon: history
+      sort: 130
+
+  - collection: propriete_societes
+    meta:
+      icon: account_tree
+      sort: 140
+
+  - collection: user_societes
+    meta:
+      icon: admin_panel_settings
+      sort: 150
+
+fields:
+  # ---- entites ----
+  - collection: entites
+    field: id
+    meta: { hidden: true }
+
+  # ---- societes_internes ----
+  - collection: societes_internes
+    field: id
+    meta: { hidden: true }
+
+  - collection: societes_internes
+    field: entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  # ---- proprietes ----
+  - collection: proprietes
+    field: id
+    meta: { hidden: true }
+
+  # ---- biens ----
+  - collection: biens
+    field: id
+    meta: { hidden: true }
+
+  - collection: biens
+    field: propriete_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{libelle}}" }
+
+  # ---- baux ----
+  - collection: baux
+    field: id
+    meta: { hidden: true }
+
+  - collection: baux
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: baux
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_lot}}" }
+
+  - collection: baux
+    field: bailleur_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  - collection: baux
+    field: locataire_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  - collection: baux
+    field: bail_miroir_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_bail}}" }
+
+  # ---- echeances ----
+  - collection: echeances
+    field: id
+    meta: { hidden: true }
+
+  - collection: echeances
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_bail}}" }
+
+  # ---- paiements ----
+  - collection: paiements
+    field: id
+    meta: { hidden: true }
+
+  - collection: paiements
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: paiements
+    field: payeur_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  # ---- paiement_allocations ----
+  - collection: paiement_allocations
+    field: paiement_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{date_paiement}} — {{montant}}" }
+
+  - collection: paiement_allocations
+    field: echeance_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{periode}}" }
+
+  # ---- indexations_soumises ----
+  - collection: indexations_soumises
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_bail}}" }
+
+  # ---- documents ----
+  - collection: documents
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: documents
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_bail}}" }
+
+  - collection: documents
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_lot}}" }
+
+  # ---- alertes_conformite ----
+  - collection: alertes_conformite
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: alertes_conformite
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code_bail}}" }
+
+relations:
+  - collection: societes_internes
+    field: entite_id
+    related_collection: entites
+    meta:
+      many_to_one: entite_id
+      one_to_many: societes_internes
+
+  - collection: biens
+    field: propriete_id
+    related_collection: proprietes
+    meta:
+      many_to_one: propriete_id
+      one_to_many: biens
+
+  - collection: propriete_societes
+    field: propriete_id
+    related_collection: proprietes
+    meta:
+      many_to_one: propriete_id
+      one_to_many: propriete_societes
+
+  - collection: propriete_societes
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta:
+      many_to_one: societe_interne_id
+      one_to_many: propriete_societes
+
+  - collection: baux
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta:
+      many_to_one: societe_interne_id
+      one_to_many: baux
+
+  - collection: baux
+    field: bien_id
+    related_collection: biens
+    meta:
+      many_to_one: bien_id
+      one_to_many: baux
+
+  - collection: baux
+    field: bailleur_entite_id
+    related_collection: entites
+    meta:
+      many_to_one: bailleur_entite_id
+      one_to_many: baux_bailleurs
+
+  - collection: baux
+    field: locataire_entite_id
+    related_collection: entites
+    meta:
+      many_to_one: locataire_entite_id
+      one_to_many: baux_locataires
+
+  - collection: baux
+    field: bail_miroir_id
+    related_collection: baux
+    meta:
+      many_to_one: bail_miroir_id
+      one_to_many: baux_miroirs
+
+  - collection: echeances
+    field: bail_id
+    related_collection: baux
+    meta:
+      many_to_one: bail_id
+      one_to_many: echeances
+
+  - collection: paiements
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta:
+      many_to_one: societe_interne_id
+      one_to_many: paiements
+
+  - collection: paiements
+    field: payeur_entite_id
+    related_collection: entites
+    meta:
+      many_to_one: payeur_entite_id
+      one_to_many: paiements_payeur
+
+  - collection: paiement_allocations
+    field: paiement_id
+    related_collection: paiements
+    meta:
+      many_to_one: paiement_id
+      one_to_many: paiement_allocations
+
+  - collection: paiement_allocations
+    field: echeance_id
+    related_collection: echeances
+    meta:
+      many_to_one: echeance_id
+      one_to_many: paiement_allocations
+
+  - collection: indexations_soumises
+    field: bail_id
+    related_collection: baux
+    meta:
+      many_to_one: bail_id
+      one_to_many: indexations_soumises
+
+  - collection: documents
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta:
+      many_to_one: societe_interne_id
+      one_to_many: documents
+
+  - collection: documents
+    field: bail_id
+    related_collection: baux
+    meta:
+      many_to_one: bail_id
+      one_to_many: documents
+
+  - collection: documents
+    field: bien_id
+    related_collection: biens
+    meta:
+      many_to_one: bien_id
+      one_to_many: documents
+
+  - collection: alertes_conformite
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta:
+      many_to_one: societe_interne_id
+      one_to_many: alertes_conformite
+
+  - collection: alertes_conformite
+    field: bail_id
+    related_collection: baux
+    meta:
+      many_to_one: bail_id
+      one_to_many: alertes_conformite
