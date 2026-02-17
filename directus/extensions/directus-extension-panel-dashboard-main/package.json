@@ -1,0 +1,11 @@
+{
+  "name": "directus-extension-panel-dashboard-main",
+  "version": "1.0.0",
+  "type": "module",
+  "directus:extension": {
+    "type": "panel",
+    "host": "^11.0.0",
+    "path": "index.js",
+    "source": "index.js"
+  }
+}

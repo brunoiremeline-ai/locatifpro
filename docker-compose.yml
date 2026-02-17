@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: locatifpro
+      POSTGRES_USER: locatifpro
+      POSTGRES_PASSWORD: locatifpro
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U locatifpro -d locatifpro"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  directus:
+    image: directus/directus:11.15.1
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8055:8055"
+    environment:
+      KEY: "${DIRECTUS_KEY:-locatifpro_key_change_me}"
+      SECRET: "${DIRECTUS_SECRET:-locatifpro_secret_change_me}"
+      DB_CLIENT: "pg"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_DATABASE: "locatifpro"
+      DB_USER: "locatifpro"
+      DB_PASSWORD: "locatifpro"
+      ADMIN_EMAIL: "${ADMIN_EMAIL:-ebrunoir@groupecreo.com}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-Admin123!ChangeMe}"
+      WEBSOCKETS_ENABLED: "true"
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "true"
+      PUBLIC_URL: "${PUBLIC_URL:-http://localhost:8055}"
+    volumes:
+      - directus_uploads:/directus/uploads
+      - ./directus/extensions:/directus/extensions
+      - ./directus:/schema:ro
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  directus_uploads:

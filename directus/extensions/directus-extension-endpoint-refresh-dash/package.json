@@ -1,0 +1,13 @@
+{
+  "name": "directus-extension-endpoint-refresh-dash",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "index.js",
+  "files": ["index.js"],
+  "directus:extension": {
+    "type": "endpoint",
+    "host": "^11.0.0",
+    "path": "index.js",
+    "source": "index.js"
+  }
+}

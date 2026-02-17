@@ -1,0 +1,11 @@
+{
+  "name": "directus-extension-interface-generate-echeances",
+  "version": "1.0.0",
+  "type": "module",
+  "directus:extension": {
+    "type": "interface",
+    "host": "^11.0.0",
+    "path": "index.js",
+    "source": "index.js"
+  }
+}

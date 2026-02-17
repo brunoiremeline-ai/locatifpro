@@ -1,0 +1,536 @@
+version: 1
+directus: 11.15.1
+vendor: postgres
+
+collections:
+  - collection: entites
+    meta:
+      icon: account_circle
+      note: "Identités (bailleurs/preneurs) internes/externes."
+  - collection: societes_internes
+    meta:
+      icon: domain
+      note: "Sociétés immobilières internes (périmètre)."
+  - collection: proprietes
+    meta:
+      icon: apartment
+  - collection: propriete_societes
+    meta:
+      icon: share
+  - collection: biens
+    meta:
+      icon: home
+  - collection: baux
+    meta:
+      icon: description
+  - collection: config_index
+    meta:
+      icon: tune
+  - collection: indices
+    meta:
+      icon: trending_up
+  - collection: echeances
+    meta:
+      icon: calendar_month
+  - collection: paiements
+    meta:
+      icon: payments
+  - collection: paiement_allocations
+    meta:
+      icon: link
+  - collection: indexations_soumises
+    meta:
+      icon: rule
+  - collection: loyers_variables_ca
+    meta:
+      icon: bar_chart
+  - collection: budgets
+    meta:
+      icon: table_chart
+  - collection: provisions_indexation
+    meta:
+      icon: query_stats
+  - collection: charges_refacturables
+    meta:
+      icon: receipt_long
+  - collection: relances
+    meta:
+      icon: mark_email_unread
+  - collection: plans_apurement
+    meta:
+      icon: playlist_add_check
+  - collection: plan_apurement_lignes
+    meta:
+      icon: checklist
+  - collection: documents
+    meta:
+      icon: attach_file
+  - collection: alertes_conformite
+    meta:
+      icon: warning
+  - collection: journal_actions
+    meta:
+      icon: history
+  - collection: user_societes
+    meta:
+      icon: admin_panel_settings
+
+fields:
+  # Cache les UUIDs dans l’UI Directus
+  - collection: entites
+    field: id
+    meta: { hidden: true }
+  - collection: societes_internes
+    field: id
+    meta: { hidden: true }
+  - collection: proprietes
+    field: id
+    meta: { hidden: true }
+  - collection: propriete_societes
+    field: id
+    meta: { hidden: true }
+  - collection: biens
+    field: id
+    meta: { hidden: true }
+  - collection: baux
+    field: id
+    meta: { hidden: true }
+  - collection: config_index
+    field: id
+    meta: { hidden: true }
+  - collection: indices
+    field: id
+    meta: { hidden: true }
+  - collection: echeances
+    field: id
+    meta: { hidden: true }
+  - collection: paiements
+    field: id
+    meta: { hidden: true }
+  - collection: paiement_allocations
+    field: id
+    meta: { hidden: true }
+  - collection: indexations_soumises
+    field: id
+    meta: { hidden: true }
+  - collection: loyers_variables_ca
+    field: id
+    meta: { hidden: true }
+  - collection: budgets
+    field: id
+    meta: { hidden: true }
+  - collection: provisions_indexation
+    field: id
+    meta: { hidden: true }
+  - collection: charges_refacturables
+    field: id
+    meta: { hidden: true }
+  - collection: relances
+    field: id
+    meta: { hidden: true }
+  - collection: plans_apurement
+    field: id
+    meta: { hidden: true }
+  - collection: plan_apurement_lignes
+    field: id
+    meta: { hidden: true }
+  - collection: documents
+    field: id
+    meta: { hidden: true }
+  - collection: alertes_conformite
+    field: id
+    meta: { hidden: true }
+  - collection: journal_actions
+    field: id
+    meta: { hidden: true }
+  - collection: user_societes
+    field: id
+    meta: { hidden: true }
+
+  # Relations (dropdown lisibles)
+  - collection: societes_internes
+    field: entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  - collection: biens
+    field: propriete_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom}}" }
+
+  - collection: propriete_societes
+    field: propriete_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom}}" }
+  - collection: propriete_societes
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: baux
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: baux
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{ref_unite}}" }
+  - collection: baux
+    field: bailleur_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+  - collection: baux
+    field: preneur_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+  - collection: baux
+    field: bail_miroir_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: config_index
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: echeances
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+  - collection: echeances
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+
+  - collection: paiements
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: paiements
+    field: contrepartie_entite_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom_affichage}}" }
+
+  - collection: paiement_allocations
+    field: paiement_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{reference_paiement}} — {{date_paiement}} — {{montant}}" }
+  - collection: paiement_allocations
+    field: echeance_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{periode}} — {{montant_total}}" }
+
+  - collection: indexations_soumises
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: documents
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: documents
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+  - collection: documents
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{ref_unite}}" }
+
+  - collection: alertes_conformite
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: alertes_conformite
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+  - collection: alertes_conformite
+    field: echeance_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{periode}} — {{montant_total}}" }
+  - collection: alertes_conformite
+    field: indexation_soumise_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{periode_application}} — {{statut}}" }
+
+  - collection: charges_refacturables
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: charges_refacturables
+    field: propriete_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{nom}}" }
+  - collection: charges_refacturables
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{ref_unite}}" }
+  - collection: charges_refacturables
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: relances
+    field: echeance_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{periode}} — {{montant_total}}" }
+
+  - collection: plans_apurement
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: plan_apurement_lignes
+    field: plan_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{bail_id.code}} — {{statut}}" }
+
+  - collection: budgets
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: budgets
+    field: bien_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} — {{ref_unite}}" }
+
+  - collection: loyers_variables_ca
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: provisions_indexation
+    field: bail_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}}" }
+
+  - collection: user_societes
+    field: societe_interne_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{code}} ({{groupe_interne}}/{{sous_groupe}})" }
+  - collection: user_societes
+    field: directus_user_id
+    meta:
+      interface: select-dropdown-m2o
+      display: related-values
+      display_options: { template: "{{first_name}} {{last_name}} — {{email}}" }
+
+relations:
+  - collection: societes_internes
+    field: entite_id
+    related_collection: entites
+    meta: { many_to_one: entite_id, one_to_many: societes_internes }
+  - collection: biens
+    field: propriete_id
+    related_collection: proprietes
+    meta: { many_to_one: propriete_id, one_to_many: biens }
+  - collection: propriete_societes
+    field: propriete_id
+    related_collection: proprietes
+    meta: { many_to_one: propriete_id, one_to_many: propriete_societes }
+  - collection: propriete_societes
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: propriete_societes }
+  - collection: baux
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: baux }
+  - collection: baux
+    field: bien_id
+    related_collection: biens
+    meta: { many_to_one: bien_id, one_to_many: baux }
+  - collection: baux
+    field: bailleur_entite_id
+    related_collection: entites
+    meta: { many_to_one: bailleur_entite_id, one_to_many: baux_bailleurs }
+  - collection: baux
+    field: preneur_entite_id
+    related_collection: entites
+    meta: { many_to_one: preneur_entite_id, one_to_many: baux_preneurs }
+  - collection: baux
+    field: bail_miroir_id
+    related_collection: baux
+    meta: { many_to_one: bail_miroir_id, one_to_many: baux_miroirs }
+  - collection: config_index
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: config_index }
+  - collection: echeances
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: echeances }
+  - collection: echeances
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: echeances }
+  - collection: paiements
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: paiements }
+  - collection: paiements
+    field: contrepartie_entite_id
+    related_collection: entites
+    meta: { many_to_one: contrepartie_entite_id, one_to_many: paiements_contrepartie }
+  - collection: paiement_allocations
+    field: paiement_id
+    related_collection: paiements
+    meta: { many_to_one: paiement_id, one_to_many: paiement_allocations }
+  - collection: paiement_allocations
+    field: echeance_id
+    related_collection: echeances
+    meta: { many_to_one: echeance_id, one_to_many: paiement_allocations }
+  - collection: indexations_soumises
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: indexations_soumises }
+  - collection: documents
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: documents }
+  - collection: documents
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: documents }
+  - collection: documents
+    field: bien_id
+    related_collection: biens
+    meta: { many_to_one: bien_id, one_to_many: documents }
+  - collection: alertes_conformite
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: alertes_conformite }
+  - collection: alertes_conformite
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: alertes_conformite }
+  - collection: alertes_conformite
+    field: echeance_id
+    related_collection: echeances
+    meta: { many_to_one: echeance_id, one_to_many: alertes_conformite }
+  - collection: alertes_conformite
+    field: indexation_soumise_id
+    related_collection: indexations_soumises
+    meta: { many_to_one: indexation_soumise_id, one_to_many: alertes_conformite }
+  - collection: charges_refacturables
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: charges_refacturables }
+  - collection: charges_refacturables
+    field: propriete_id
+    related_collection: proprietes
+    meta: { many_to_one: propriete_id, one_to_many: charges_refacturables }
+  - collection: charges_refacturables
+    field: bien_id
+    related_collection: biens
+    meta: { many_to_one: bien_id, one_to_many: charges_refacturables }
+  - collection: charges_refacturables
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: charges_refacturables }
+  - collection: relances
+    field: echeance_id
+    related_collection: echeances
+    meta: { many_to_one: echeance_id, one_to_many: relances }
+  - collection: plans_apurement
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: plans_apurement }
+  - collection: plan_apurement_lignes
+    field: plan_id
+    related_collection: plans_apurement
+    meta: { many_to_one: plan_id, one_to_many: plan_apurement_lignes }
+  - collection: budgets
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: budgets }
+  - collection: budgets
+    field: bien_id
+    related_collection: biens
+    meta: { many_to_one: bien_id, one_to_many: budgets }
+  - collection: loyers_variables_ca
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: loyers_variables_ca }
+  - collection: provisions_indexation
+    field: bail_id
+    related_collection: baux
+    meta: { many_to_one: bail_id, one_to_many: provisions_indexation }
+  - collection: user_societes
+    field: societe_interne_id
+    related_collection: societes_internes
+    meta: { many_to_one: societe_interne_id, one_to_many: user_societes }
